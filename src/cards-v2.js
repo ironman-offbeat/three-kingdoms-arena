@@ -1,0 +1,3 @@
+export const FACTIONS={wei:{name:'위',identity:'속공·직접 피해·무기',power:'급습 명령'},shu:{name:'촉',identity:'도발·회복·결속',power:'인덕의 수호'},wu:{name:'오',identity:'계략·화공·드로우',power:'강동의 지략'},neutral:{name:'중립',identity:'용병·보급·기병',power:'전장 지원'}};
+export const RARITY={common:'보통',rare:'희귀',epic:'영웅',legendary:'전설'};
+const REG={wei:['허창','업성','관도','합비','진류','연주','완성','하북'],shu:['성도','한중','형주','검각','파서','백제성','남중','가맹관'],wu:['건업','강동','적벽','여강','무창','시상','회계','파구'],neutral:['
