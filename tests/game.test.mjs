@@ -1,0 +1,11 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {CARD_POOL,draftOptions,aiDeck} from '../src/cards.js';
+import {createBattle,playCard,attack,endTurn,validTargets} from '../src/game.js';
+const rng=()=>0.25;
+test('card catalog has 200 cards',()=>assert.equal(CARD_POOL.length,200));
+test('draft presents three cards',()=>assert.equal(draftOptions('wei',rng).length,3));
+test('AI deck has thirty cards',()=>assert.equal(aiDeck('shu',rng).length,30));
+test('battle starts with valid fortress and mana',()=>{const b=createBattle('wei',aiDeck('wei',rng),'shu',rng);assert.equal(b.player.fortress,30);assert.ok(b.player.maxMana>=0);});
+test('taunt limits attack targets',()=>{const b=createBattle('wei',aiDeck('wei',rng),'shu',rng);b.turn='player';b.player.board=[{name:'공격자',attack:3,health:3,keywords:[],canAttack:true,attacksLeft:1}];b.enemy.board=[{name:'도발',attack:1,health:3,keywords:['도발'],canAttack:false,attacksLeft:0},{name:'일반',attack:1,health:2,keywords:[],canAttack:false,attacksLeft:0}];const targets=validTargets(b,'player',0);assert.equal(targets.length,1);assert.equal(targets[0].index,0);});
+test('unit can damage fortress',()=>{const b=createBattle('wei',aiDeck('wei',rng),'shu',rng);b.turn='player';b.player.board=[{name:'공격자',attack:4,health:3,keywords:[],canAttack:true,attacksLeft:1}];b.enemy.board=[];const r=attack(b,'player',0,{side:'enemy',type:'fortress'});assert.equal(r.ok,true);assert.equal(b.enemy.fortress,26);});
